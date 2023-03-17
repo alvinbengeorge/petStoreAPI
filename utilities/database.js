@@ -1,17 +1,20 @@
 import mongodb from 'mongodb';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const client = new mongodb.MongoClient(process.env.uri, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 });
+const db = client.db("loginAPI");
 
 async function connectDatabase() {
-    if (!client.isConnected()) {
-        await client.connect();
-    }
+    await client.connect();
     return client;
 }
 
 export {
     connectDatabase,
+    client
 }
