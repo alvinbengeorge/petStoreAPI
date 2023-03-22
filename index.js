@@ -7,7 +7,7 @@ import {
     removePet,
     editPet,
     UserCreate
-} from "./utilities/handler.js";
+} from "./utilities/controller";
 
 import { connectDatabase } from "./utilities/database.js";
 
