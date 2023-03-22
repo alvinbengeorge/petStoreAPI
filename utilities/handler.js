@@ -1,13 +1,17 @@
 import { nanoid } from "nanoid";
 import dotenv from 'dotenv';
-import { add, remove, edit, viewAll, view } from "./database.js"
+import { add, remove, edit, viewAll, view, validateUser, createUser } from "./database.js"
+import { authentication, isOwner } from "./auth.js"
 
 dotenv.config();
 
-function authentication(req) {
-    const { authorization } = req.headers;
-    if (authorization != process.env.secret) {
-        throw new Error({ message: "Unauthorized" });
+async function UserCreate(req, res) {
+    try {
+        const { username, password } = req.body;
+        const result = await createUser(username, password);
+        res.send({ message: "User created", result });
+    } catch (err) {
+        res.send(err.message);
     }
 }
 
@@ -32,9 +36,10 @@ async function getPet(req, res) {
 
 async function addPet(req, res) {
     try {
-        authentication(req);
-        const { name, type, age, color, owner, image } = req.body;
+        await authentication(req);
+        const { name, type, age, color, image } = req.body;
         const id = nanoid();
+        const owner = req.headers.username;
         const data = { id, name, type, age, color, owner, image };
         await add(data);
         res.send({ data, "message": "Pet added" });
@@ -45,7 +50,8 @@ async function addPet(req, res) {
 
 async function removePet(req, res) {
     try {
-        authentication(req);
+        await authentication(req);
+        await isOwner(req, req.params.id);
         const { id } = req.params;
         await remove(id);
         res.send({ message: "Pet removed" });
@@ -56,9 +62,11 @@ async function removePet(req, res) {
 
 async function editPet(req, res) {
     try {
-        authentication(req);
+        await authentication(req);
+        await isOwner(req, req.params.id)
         const { id } = req.params;
-        const { name, type, age, color, owner, image } = req.body;
+        const owner = req.headers.username
+        const { name, type, age, color, image } = req.body;
         const data = { name, type, age, color, owner, image };
         await edit(id, data);
         res.send({ message: "Pet edited", data });
@@ -73,5 +81,6 @@ export {
     getPet,
     addPet,
     removePet,
-    editPet
+    editPet,
+    UserCreate
 }

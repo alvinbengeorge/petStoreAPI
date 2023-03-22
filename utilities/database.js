@@ -9,6 +9,7 @@ const client = new mongodb.MongoClient(process.env.uri, {
 });
 const db = client.db("work");
 const collection = db.collection("petstoreAPI")
+const users = db.collection("users")
 
 async function connectDatabase() {
     await client.connect();
@@ -40,6 +41,16 @@ async function viewAll() {
     return result;
 }
 
+async function createUser(user, password) {
+    const result = await users.insertOne({user, password});
+    return result;
+}
+
+async function validateUser(user, password) {
+    return await users.findOne({user, password});
+}
+
+
 export {
     connectDatabase,
     client,
@@ -47,5 +58,7 @@ export {
     edit,
     remove,
     view,
-    viewAll
+    viewAll,
+    createUser,
+    validateUser
 }

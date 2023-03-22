@@ -5,7 +5,8 @@ import {
     getPet,
     addPet,
     removePet,
-    editPet
+    editPet,
+    UserCreate
 } from "./utilities/handler.js";
 
 import { connectDatabase } from "./utilities/database.js";
@@ -25,6 +26,7 @@ app.get('/pets/:id', getPet);
 app.post('/allpets', addPet);
 app.delete('/deletepet/:id', removePet);
 app.patch('/editpet/:id', editPet);
+app.post('/user', UserCreate);
 
 
 app.listen(process.env.port, () => {
