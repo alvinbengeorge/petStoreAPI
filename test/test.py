@@ -61,6 +61,16 @@ def deletePet():
     )
     print(r.content.decode())
 
+def deleteUser():
+    r = requests.delete(
+        url.format('deleteuser'),
+        headers={
+            "username": "newUser",
+            "password": "newUser"
+        }
+    )
+    return r.content.decode()
+
 if __name__ == '__main__':
     print("\n\nCreateUser Test")
     createUser()
@@ -77,3 +87,5 @@ if __name__ == '__main__':
     print("\n\nDeletePet Test")
     deletePet()
     sleep(1)
+    print("\n\nDeleteUser Test")
+    print(deleteUser())
