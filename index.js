@@ -26,8 +26,7 @@ app.get('/pets/:id', getPet);
 app.post('/allpets', addPet);
 app.delete('/deletepet/:id', removePet);
 app.patch('/editpet/:id', editPet);
-app.post('/user', UserCreate);
-
+app.post('/usercreate', UserCreate);
 
 app.listen(process.env.port, () => {
     console.log(`Server running on port ${process.env.port}`);

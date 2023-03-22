@@ -2,6 +2,7 @@ import { nanoid } from "nanoid";
 import dotenv from 'dotenv';
 import { add, remove, edit, viewAll, view, validateUser, createUser } from "./database.js"
 import { authentication, isOwner } from "./auth.js"
+import { checkSchema } from "./schema.js";
 
 dotenv.config();
 
@@ -37,6 +38,7 @@ async function getPet(req, res) {
 async function addPet(req, res) {
     try {
         await authentication(req);
+        await checkSchema(req);
         const { name, type, age, color, image } = req.body;
         const id = nanoid();
         const owner = req.headers.username;
@@ -64,6 +66,7 @@ async function editPet(req, res) {
     try {
         await authentication(req);
         await isOwner(req, req.params.id)
+        await checkSchema(req);
         const { id } = req.params;
         const owner = req.headers.username
         const { name, type, age, color, image } = req.body;
