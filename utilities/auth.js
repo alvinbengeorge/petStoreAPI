@@ -1,4 +1,4 @@
-import { validateUser, view, UserExists } from "./database.js";
+import { validateUser, view } from "./database.js";
 
 async function authentication(req) {
     const { username, password } = req.headers;
@@ -21,6 +21,5 @@ async function isOwner(req, id) {
 
 export {
     authentication,
-    isOwner,
-    UserExists
+    isOwner
 }

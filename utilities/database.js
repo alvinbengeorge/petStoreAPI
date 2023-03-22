@@ -27,7 +27,7 @@ async function edit(id, data) {
 }
 
 async function remove(id) {
-    const result = await collection.findOneAndDelete( {'id': id} );
+    const result = await collection.findOneAndDelete({'id': id});
     return result;
 }
 
@@ -50,7 +50,7 @@ async function validateUser(user, password) {
     return await users.findOne({user, password});
 }
 
-async function UserExists(user) {
+async function userExists(user) {
     const result = await users.findOne({user})
     if (result){
         throw new Error("User already exists");
@@ -66,6 +66,10 @@ async function filterData(data) {
     return newData;
 }
 
+async function deleteUserFromDatabase(username) {
+    await users.findOneAndDelete({user: username});
+    await collection.deleteMany({owner: username});
+}
 
 export {
     connectDatabase,
@@ -77,6 +81,7 @@ export {
     viewAll,
     createUser,
     validateUser,
-    UserExists,
-    filterData
+    userExists,
+    filterData,
+    deleteUserFromDatabase
 }

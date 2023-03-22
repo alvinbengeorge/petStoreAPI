@@ -6,7 +6,8 @@ import {
     addPet,
     removePet,
     editPet,
-    UserCreate
+    userCreate,
+    deleteUser
 } from "./utilities/controller.js";
 
 import { connectDatabase } from "./utilities/database.js";
@@ -25,9 +26,11 @@ app.get('/', (req, res) => {
 app.get('/pets', getAllPets);
 app.get('/pets/:id', getPet);
 app.post('/addpets', addPet);
-app.delete('/deletepet/:id', removePet);
 app.patch('/editpet/:id', editPet);
-app.post('/usercreate', UserCreate);
+app.post('/usercreate', userCreate);
+app.delete("/deleteuser/", deleteUser);
+app.delete('/deletepet/:id', removePet);
+
 
 app.listen(process.env.port, () => {
     console.log(`Server running on port ${process.env.port}`);

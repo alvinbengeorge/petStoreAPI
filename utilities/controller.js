@@ -1,17 +1,39 @@
 import { nanoid } from "nanoid";
 import dotenv from 'dotenv';
-import { add, remove, edit, viewAll, view, UserExists, createUser, filterData } from "./database.js"
+import { 
+    add, 
+    remove, 
+    edit, 
+    viewAll, 
+    view, 
+    userExists, 
+    createUser, 
+    filterData,
+    deleteUserFromDatabase, 
+} from "./database.js"
 import { authentication, isOwner } from "./auth.js"
 import { checkSchema } from "./schema.js";
 
 dotenv.config();
 
-async function UserCreate(req, res) {
+async function userCreate(req, res) {
     try {
-        await UserExists(req.body.username);
+        await userExists(req.body.username);
         const { username, password } = req.body;
         await createUser(username, password);
         res.send({ message: "User created"});
+    } catch (err) {
+        console.log(err.message)
+        res.send({"message": err.message});
+    }
+}
+
+async function deleteUser(req, res) {
+    try {
+        const { username, password } = req.headers;
+        await authentication(req);
+        await deleteUserFromDatabase(username);
+        res.send({ message: "User deleted"});
     } catch (err) {
         console.log(err.message)
         res.send({"message": err.message});
@@ -91,5 +113,6 @@ export {
     addPet,
     removePet,
     editPet,
-    UserCreate
+    userCreate,
+    deleteUser
 }

@@ -22,28 +22,11 @@ Returns all the pets in the store if ID is not provided. If ID is provided, retu
 Adds a pet to the store. The body of the request should be in the following format:
 ```json
 {
-    "name": "petName",
-    "age": 1,
-    "type": "petType",
-    "color": "petColor",
-    "image": "https://petImageURL"
-}
-```
-**Can only be done by the owner of the pet. Username and Password must be provided in the header**
-
-### `/deletepet/:id [DELETE]`
-Deletes the pet with the given ID. \
-**Can only be done by the owner of the pet. Username and Password must be provided in the header**
-
-### `/editpet/:id [PATCH]`
-Edits the pet with the given ID. The body of the request should be in the following format:
-```json
-{
-    "name": "petName",
-    "age": 1,
-    "type": "petType",
-    "color": "petColor",
-    "image": "https://petImageURL"
+    "name": string,
+    "age": int,
+    "type": string,
+    "color": string,
+    "image": string // URL
 }
 ```
 **Can only be done by the owner of the pet. Username and Password must be provided in the header**
@@ -52,8 +35,28 @@ Edits the pet with the given ID. The body of the request should be in the follow
 Creates a user. The body of the request should be in the following format:
 ```json
 {
-    "username": "userName",
-    "password": "userPassword"
+    "username": string,
+    "password": string
 }
 ```
+
+### `/editpet/:id [PATCH]`
+Edits the pet with the given ID. The body of the request should be in the following format:
+```json
+{
+    "name": string,
+    "age": int,
+    "type": string,
+    "color": string,
+    "image": string // URL
+}
+```
+**Can only be done by the owner of the pet. Username and Password must be provided in the header**
+
+### `/deletepet/:id [DELETE]`
+Deletes the pet with the given ID. \
+**Can only be done by the owner of the pet. Username and Password must be provided in the header**
+
+### `/deleteuser [DELETE]`
+Deletes the user. Username and Password must be provided in the header.
 
