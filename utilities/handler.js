@@ -1,6 +1,6 @@
 import { nanoid } from "nanoid";
 import dotenv from 'dotenv';
-import { add, remove, edit, viewAll, view, validateUser, createUser } from "./database.js"
+import { add, remove, edit, viewAll, view, UserExists, createUser, filterData } from "./database.js"
 import { authentication, isOwner } from "./auth.js"
 import { checkSchema } from "./schema.js";
 
@@ -8,17 +8,19 @@ dotenv.config();
 
 async function UserCreate(req, res) {
     try {
+        await UserExists(req.body.username);
         const { username, password } = req.body;
-        const result = await createUser(username, password);
-        res.send({ message: "User created", result });
+        await createUser(username, password);
+        res.send({ message: "User created"});
     } catch (err) {
-        res.send(err.message);
+        console.log(err.message)
+        res.send({"message": err.message});
     }
 }
 
 async function getAllPets(req, res) {
     try {
-        const data = await viewAll();
+        const data = await filterData(viewAll());
         res.send(data);
     } catch (err) {
         res.send(err.message);
@@ -31,6 +33,7 @@ async function getPet(req, res) {
         const data = await view(id);
         res.send(data);
     } catch (err) {
+        console.log(err.message)
         res.send({ "message": err.message })
     }
 }
@@ -44,8 +47,9 @@ async function addPet(req, res) {
         const owner = req.headers.username;
         const data = { id, name, type, age, color, owner, image };
         await add(data);
-        res.send({ data, "message": "Pet added" });
+        res.send({  "message": "Pet added" });
     } catch (err) {
+        console.log(err.message)
         res.send(err.message);
     }
 }
@@ -58,6 +62,7 @@ async function removePet(req, res) {
         await remove(id);
         res.send({ message: "Pet removed" });
     } catch (err) {
+        console.log(err.message)
         res.send(err.message);
     }
 }
@@ -72,8 +77,9 @@ async function editPet(req, res) {
         const { name, type, age, color, image } = req.body;
         const data = { name, type, age, color, owner, image };
         await edit(id, data);
-        res.send({ message: "Pet edited", data });
+        res.send({ message: "Pet edited"});
     } catch (err) {
+        console.log(err.message)
         res.send({ message: err.message });
     }
 }

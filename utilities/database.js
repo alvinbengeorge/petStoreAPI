@@ -50,6 +50,22 @@ async function validateUser(user, password) {
     return await users.findOne({user, password});
 }
 
+async function UserExists(user) {
+    const result = await users.findOne({user})
+    if (result){
+        throw new Error("User already exists");
+    }
+}
+
+function filterData(data) {
+    let newData = [];
+    for (let i = 0; i < data.length; i++) {
+        const { id, name, type, age, color, owner, image } = data;
+        newData.push({ id, name, type, age, color, owner, image });
+    }
+    return newData;
+}
+
 
 export {
     connectDatabase,
@@ -60,5 +76,7 @@ export {
     view,
     viewAll,
     createUser,
-    validateUser
+    validateUser,
+    UserExists,
+    filterData
 }

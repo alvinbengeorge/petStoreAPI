@@ -14,6 +14,7 @@ import { connectDatabase } from "./utilities/database.js";
 
 dotenv.config();
 const app = express();
+app.use(express.json());
 connectDatabase()
 
 
@@ -23,7 +24,7 @@ app.get('/', (req, res) => {
 
 app.get('/pets', getAllPets);
 app.get('/pets/:id', getPet);
-app.post('/allpets', addPet);
+app.post('/addpets', addPet);
 app.delete('/deletepet/:id', removePet);
 app.patch('/editpet/:id', editPet);
 app.post('/usercreate', UserCreate);

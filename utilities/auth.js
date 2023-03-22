@@ -1,4 +1,4 @@
-import { validateUser, view } from "./database.js";
+import { validateUser, view, UserExists } from "./database.js";
 
 async function authentication(req) {
     const { username, password } = req.headers;
@@ -6,7 +6,7 @@ async function authentication(req) {
     if (result) {
         return result;
     } else {
-        throw new Error({ message: "Unauthorized" });
+        throw new Error("Unauthorized. Please provide valid credentials");
     }
 
 }
@@ -15,11 +15,12 @@ async function isOwner(req, id) {
     const { username } = req.headers;
     const result = await view(id);
     if (result.owner !== username) {
-        throw new Error({ message: "Unauthorized. Only owner can modify data" });
+        throw new Error("Unauthorized. Only owner can modify data" );
     }
 }
 
 export {
     authentication,
     isOwner,
+    UserExists
 }
