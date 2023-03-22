@@ -29,10 +29,11 @@ Adds a pet to the store. The body of the request should be in the following form
     "image": "https://petImageURL"
 }
 ```
+**Can only be done by the owner of the pet. Username and Password must be provided in the header**
 
 ### `/deletepet/:id [DELETE]`
 Deletes the pet with the given ID. \
-**Can only be done by the owner of the pet.**
+**Can only be done by the owner of the pet. Username and Password must be provided in the header**
 
 ### `/editpet/:id [PATCH]`
 Edits the pet with the given ID. The body of the request should be in the following format:
@@ -45,6 +46,7 @@ Edits the pet with the given ID. The body of the request should be in the follow
     "image": "https://petImageURL"
 }
 ```
+**Can only be done by the owner of the pet. Username and Password must be provided in the header**
 
 ### `/usercreate [POST]`
 Creates a user. The body of the request should be in the following format:
