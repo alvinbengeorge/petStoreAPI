@@ -1,4 +1,5 @@
 import requests
+from time import sleep
 url = 'http://localhost:8080/{}'
 
 def createUser():
@@ -54,8 +55,8 @@ def deletePet():
     r = requests.delete(
         url.format('deletepet/{}'.format(getAllPets()[0]['id'])), 
         headers={
-            "username": "test",
-            "password": "test"
+            "username": "newUser",
+            "password": "newUser"
         }
     )
     print(r.content.decode())
@@ -63,11 +64,16 @@ def deletePet():
 if __name__ == '__main__':
     print("\n\nCreateUser Test")
     createUser()
+    sleep(1)
     print("\n\nAddPet Test")
     addPet()
+    sleep(1)
     print("\n\nGetAllPets Test")
     getAllPets()
+    sleep(1)
     print("\n\nEditPet Test")
     editPet()
+    sleep(1)
     print("\n\nDeletePet Test")
     deletePet()
+    sleep(1)

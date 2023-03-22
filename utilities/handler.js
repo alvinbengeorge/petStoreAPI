@@ -20,7 +20,7 @@ async function UserCreate(req, res) {
 
 async function getAllPets(req, res) {
     try {
-        const data = await filterData(viewAll());
+        const data = await filterData(await viewAll());
         res.send(data);
     } catch (err) {
         res.send(err.message);

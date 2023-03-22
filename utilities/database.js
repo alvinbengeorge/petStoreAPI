@@ -57,10 +57,10 @@ async function UserExists(user) {
     }
 }
 
-function filterData(data) {
+async function filterData(data) {
     let newData = [];
     for (let i = 0; i < data.length; i++) {
-        const { id, name, type, age, color, owner, image } = data;
+        const { id, name, type, age, color, owner, image } = data[i];
         newData.push({ id, name, type, age, color, owner, image });
     }
     return newData;
